@@ -11,6 +11,9 @@ import java.util.Scanner;
  *
  * @author Dendelion
  */
+
+
+/* no gui for now*/
 public class GraWzycie {
 
     /**
@@ -34,23 +37,27 @@ public class GraWzycie {
 
             }
         }
-        
-//        tab[0][1].setState(1);
-//        tab[1][1].setState(1);
-        tab[2][1].setState(1);
-        tab[3][3].setState(1);
-        tab[1][2].setState(1);
-        tab[1][3].setState(1);
-        tab[2][4].setState(1);
-        tab[3][2].setState(1);
-        
+/*-----------STALA-------------------------*/
+//        tab[2][1].setState(1);
+//        tab[3][3].setState(1);
+//        tab[1][2].setState(1);
+//        tab[1][3].setState(1);
+//        tab[2][4].setState(1);
+//        tab[3][2].setState(1);
+ 
+/*---------------OSCYLATOR------------------*/
 //        tab[1][2].setState(1);
 //        tab[2][2].setState(1);
 //        tab[3][2].setState(1);
         
-//        tab[2][1].setState(1);
-//        tab[2][2].setState(1);
-//        tab[2][3].setState(1);
+/*-------------------GLIDER--------------------*/
+        tab[2][2].setState(1);
+        tab[3][3].setState(1);
+        tab[1][2].setState(1);
+        tab[1][3].setState(1);
+        tab[1][4].setState(1);
+
+        
         
         for(int i=0; i<size; i++){
             for(int j=0; j<size; j++){
@@ -60,7 +67,7 @@ public class GraWzycie {
         }
         
         
-        int bc=0;
+        int bc=1;
 //        System.out.println("Podaj warunek brzegowy");
 //        Scanner sc = new Scanner(System.in);
 //        bc = sc.nextInt();
@@ -94,8 +101,35 @@ public class GraWzycie {
                     /*--------------------------------------------*/                    
                     
                 }else if(bc==1){
-                    //to do
-                    //periodic boundary condition
+                    for(int k=i-1; k<i+2; k++){
+                        for(int l=j-1; l<j+2; l++){
+                            
+                            int kk, ll;
+                            
+                            if(k<0)
+                                kk=size-1;
+                            else if(k>=size)
+                                kk=0;
+                            else
+                                kk=k;
+                            
+                            
+                            if(l<0)
+                                ll=size-1;
+                            else if(l>=size)
+                                ll=0;
+                            else 
+                                ll=l;
+                            
+                            if(k==i && l==j)
+                                ;
+                            else if(tab[kk][ll].getState()==0){
+                                tab[i][j].addD();
+                            }
+                            else
+                                tab[i][j].addA();
+                        }
+                    }                 
                 }else{
             
                 }
