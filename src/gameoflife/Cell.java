@@ -3,57 +3,56 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package grawzycie;
+package gameoflife;
 
 /**
  *
  * @author Dendelion
  */
-public class Komorka {
+public class Cell {
+
+    private int state;
+    private int alive, dead;
     
-//    int i, j;
-    private int stan;
-    private int zywy, umarly;
-    
-    public Komorka(){
+    public Cell(){
 //        this.i = i;
 //        this.j = i;
-        zywy = 0;
-        umarly = 0;
-        //stan = 0;
+        alive = 0;
+        dead = 0;
+        //state = 0;
     }
     
 
     
-    public void setState(int stan){
-        this.stan=stan;
+    public void setState(int state){
+        this.state=state;
     }
     
     public int getState(){
-        return stan;
+        return state;
     }
     
-    public void setAlive(int zywy){
-        this.zywy=zywy;
+    public void setAlive(int alive){
+        this.alive=alive;
     }
     
     public int getAlive(){
-        return zywy;
+        return alive;
     }
     
-    public void setDead(int umarly){
-        this.umarly=umarly;
+    public void setDead(int dead){
+        this.dead=dead;
     }
     
     public int getDead(){
-        return umarly;
+        return dead;
     }
     
     public void addD(){
-        umarly++;
+        dead++;
     }
     
     public void addA(){
-        zywy++;
+        alive++;
     }
 }

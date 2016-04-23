@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package grawzycie;
+package gameoflife;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,18 +24,19 @@ public class Board extends JPanel{
        
     private int size = 20;
         
-        Komorka [][]tab = new Komorka[size][size];
-        Komorka [][]temp = new Komorka[size][size];
+    private Cell [][]tab = new Cell[size][size];
+    private final Cell [][]temp;
         
         public Board(){
+        this.temp = new Cell[size][size];
         
         for(int i=0; i<size; i++){
             for(int j=0; j<size; j++){
 
-                tab[i][j] = new Komorka();
+                tab[i][j] = new Cell();
                 tab[i][j].setState(0);
                 
-                temp[i][j] = new Komorka();
+                temp[i][j] = new Cell();
                 temp[i][j].setState(0);
 
             }
@@ -52,24 +53,26 @@ public class Board extends JPanel{
             
             @Override
             public void mouseClicked(MouseEvent e){
-                Point point = e.getPoint();
                 
                 int w = getWidth();
                 int h = getHeight();
-                
+                              
                 int cellW = w/size;
                 int cellH = h/size;
                 
-                //selectedCell = null;
-                
                 if(e.getX()>=0 && e.getY()>=0){
+                    
                     int c = e.getX() / cellW;
                     int r = e.getY() / cellH;
                     
                     if(c>=0 && r>=0 && c<size && r<size){
                         
-                        tab[r][c].setState(1);
-                        System.out.println("c: r: "+c+" "+r);
+                        if(tab[r][c].getState()==0){
+                            tab[r][c].setState(1);
+                            //System.out.println("c: r: "+c+" "+r);
+                        }
+                        else
+                            tab[r][c].setState(0);
                     }
                 }                
                 repaint();      
@@ -78,9 +81,12 @@ public class Board extends JPanel{
         addMouseListener(mouseHandler);
     }
     
-    
     public Dimension getPrefferredSize(){
         return new Dimension(500, 500);
+    }
+    
+    public void refresh(){
+        
     }
     
     
@@ -98,9 +104,7 @@ public class Board extends JPanel{
         
         int x = (w - size * cellW)/2;
         int y = (h - size * cellH)/2;
-        
-        
-        
+                
         for(int i=0; i<size; i++){
             for(int j=0; j<size; j++){
 
