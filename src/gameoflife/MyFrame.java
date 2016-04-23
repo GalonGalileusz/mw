@@ -9,7 +9,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,13 +25,16 @@ import javax.swing.JPanel;
 public class MyFrame extends JFrame{
     
     private String[] bcs = new String[]{"Non-periodic", "Periodic"};
-    private String[] structs = new String[]{"Constant", "Oscillator", "Glider"};
-    private int bc=0;
-    private int s = 0;
+    private String[] structs = new String[]{"Own", "Constant", "Oscillator", "Glider"};
     private JPanel contentPane;
     private Board board;
+    private Conditions c;
     
     public MyFrame(){
+        
+        board = new Board();
+        c = board.cond;
+        
         setTitle("Game of life");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());      
@@ -46,12 +52,11 @@ public class MyFrame extends JFrame{
         panel.add(bcLabel);
         
         JComboBox bcCombo = new JComboBox();
-        bcCombo.setToolTipText("Boundary Conditions");
         bcCombo.addItemListener(new ItemListener() {
 
             @Override
             public void itemStateChanged(ItemEvent e) {
-                bc = bcCombo.getSelectedIndex();
+                c.setBC(bcCombo.getSelectedIndex());
             }
         });
         
@@ -62,27 +67,60 @@ public class MyFrame extends JFrame{
         panel.add(structLabel);
         
         JComboBox structCombo = new JComboBox();
-//        structCombo.setToolTipText("Structure");
         structCombo.addItemListener(new ItemListener() {
 
             @Override
             public void itemStateChanged(ItemEvent e) {
-                s = structCombo.getSelectedIndex();
+                c.setStruct(structCombo.getSelectedIndex());
             }
         });
         
         structCombo.setModel(new DefaultComboBoxModel(this.structs));
         panel.add(structCombo);
         
-        System.out.println("CHUJ");
+        JButton startButton = new JButton("Start");
+        startButton.addMouseListener(new MouseAdapter() {
+            
+            @Override
+            public void mouseClicked(MouseEvent e){
+                c.setGameStatus(1);
+            }
+        });
         
-        board = new Board();
+        JButton stopButton = new JButton("Stop");
+        stopButton.addMouseListener(new MouseAdapter() {
+            
+            @Override
+            public void mouseClicked(MouseEvent e){
+                c.setGameStatus(0);
+            }
+        });
+        
+        JButton cleanButton = new JButton("Clean");
+        cleanButton.addMouseListener(new MouseAdapter() {
+            
+            @Override
+            public void mouseClicked(MouseEvent e){
+                c.setGameStatus(2);
+                //methods to clean board 
+            }
+        });
+        
+        panel.add(startButton);
+        panel.add(stopButton);
+        panel.add(cleanButton);
+        
+        
         contentPane.add(board, BorderLayout.CENTER);
         
-        setVisible(true);
+        new Thread(board).start();
+        
+        
     } 
     
     public Dimension getPrefferredSize(){
         return new Dimension(500, 500);
     }
+    
+
 }

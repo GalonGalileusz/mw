@@ -15,15 +15,10 @@ public class Cell {
     private int alive, dead;
     
     public Cell(){
-//        this.i = i;
-//        this.j = i;
         alive = 0;
         dead = 0;
-        //state = 0;
     }
-    
 
-    
     public void setState(int state){
         this.state=state;
     }
