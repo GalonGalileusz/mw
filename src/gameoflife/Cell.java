@@ -43,11 +43,11 @@ public class Cell {
         return dead;
     }
     
-    public void addD(){
+    public void addDead(){
         dead++;
     }
     
-    public void addA(){
+    public void addAlive(){
         alive++;
     }
 }

@@ -102,6 +102,23 @@ public class Board extends JPanel implements Runnable{
                             else
                                 tab[r][c].setState(0);
                             break;
+                        case 4:
+                            if(tab[r][c].getState()==0){
+                                tab[5][5].setState(1);tab[5][6].setState(1);tab[5][7].setState(1);tab[5][11].setState(1);tab[5][12].setState(1);tab[5][13].setState(1);
+                                tab[6][4].setState(1);tab[6][8].setState(1);tab[6][10].setState(1);tab[6][14].setState(1);
+                                tab[7][3].setState(1);tab[7][9].setState(1);tab[7][15].setState(1);
+                                tab[8][3].setState(1);tab[8][15].setState(1);
+                                tab[9][3].setState(1);tab[9][15].setState(1);
+                                tab[10][4].setState(1);tab[10][14].setState(1);
+                                tab[11][5].setState(1);tab[11][13].setState(1);
+                                tab[12][6].setState(1);tab[12][12].setState(1);
+                                tab[13][7].setState(1);tab[13][11].setState(1);
+                                tab[14][8].setState(1);tab[14][10].setState(1);
+                                tab[15][9].setState(1);
+                            }
+                            else
+                                tab[r][c].setState(0);
+                            break;
                     }                          
                     }
                 }                
@@ -131,7 +148,7 @@ public class Board extends JPanel implements Runnable{
                 if(tab[i][j].getState()==0){
                     g2d.setColor(Color.white);
                 }else{
-                    g2d.setColor(Color.red);
+                    g2d.setColor(Color.orange);
                 }
                 
                 Rectangle cell = new Rectangle(x + j*cellW,
@@ -141,8 +158,7 @@ public class Board extends JPanel implements Runnable{
                 g2d.fill(cell);
 
             }
-        }
-      
+        }     
     }
 
     @Override
@@ -159,7 +175,7 @@ public class Board extends JPanel implements Runnable{
                 repaint();
             }
             try{
-                Thread.sleep(500);
+                Thread.sleep(300);
             }catch (Exception ex){
                 ex.printStackTrace();
             }
@@ -183,10 +199,10 @@ public class Board extends JPanel implements Runnable{
                             if((k==i && l==j) || k<0 || k>=size || l<0 || l>=size){
                                 continue; }
                             else if(tab[k][l].getState()==0){
-                                tab[i][j].addD(); 
+                                tab[i][j].addDead(); 
                             }
                             else
-                                tab[i][j].addA();
+                                tab[i][j].addAlive();
                         }
                     }
                     /*--------------------------------------------*/                    
@@ -215,10 +231,10 @@ public class Board extends JPanel implements Runnable{
                             if(k==i && l==j)
                                 ;
                             else if(tab[kk][ll].getState()==0){
-                                tab[i][j].addD();
+                                tab[i][j].addDead();
                             }
                             else
-                                tab[i][j].addA();
+                                tab[i][j].addAlive();
                         }
                     }                 
                 }else{
@@ -236,8 +252,6 @@ public class Board extends JPanel implements Runnable{
              
             }
         }
-        
-        System.out.println("----------------------");
         
         for(int i=0; i<size; i++){
             for(int j=0; j<size; j++){
@@ -261,6 +275,7 @@ public class Board extends JPanel implements Runnable{
 
             }
         }
+        cond.setGameStatus(0);
     }
     }
     

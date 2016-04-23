@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 public class MyFrame extends JFrame{
     
     private String[] bcs = new String[]{"Non-periodic", "Periodic"};
-    private String[] structs = new String[]{"Own", "Constant", "Oscillator", "Glider"};
+    private String[] structs = new String[]{"Own", "Constant", "Oscillator", "Glider", "♥"};
     private JPanel contentPane;
     private Board board;
     private Conditions c;
