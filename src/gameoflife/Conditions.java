@@ -41,4 +41,5 @@ public class Conditions {
     public int getStruct(){
         return struct;
     }
+
 }

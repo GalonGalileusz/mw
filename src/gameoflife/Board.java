@@ -60,16 +60,18 @@ public class Board extends JPanel implements Runnable{
                     int r = e.getY() / cellH;
                     
                     if(c>=0 && r>=0 && c<size && r<size){
-                                            
+                    
+                    /*-------Generating structures-----------*/    
+                        
                     switch (cond.getStruct()){
-                        case 0: 
+                        case 0: //--------------------------OWN
                             if(tab[r][c].getState()==0){
                             tab[r][c].setState(1);
                             }
                             else
                                 tab[r][c].setState(0);
                             break;
-                        case 1:
+                        case 1: //-------------------------CONSTANT
                             if(tab[r][c].getState()==0){
                                 tab[r][c].setState(1);
                                 tab[r][c+1].setState(1);
@@ -81,7 +83,7 @@ public class Board extends JPanel implements Runnable{
                             else
                                 tab[r][c].setState(0);
                             break;
-                        case 2:
+                        case 2: //-------------------------OSCILLATOR
                             if(tab[r][c].getState()==0){
                                 tab[r][c].setState(1);
                                 tab[r+1][c].setState(1);
@@ -91,7 +93,7 @@ public class Board extends JPanel implements Runnable{
                                 tab[r][c].setState(0);
                                 
                             break;
-                        case 3:
+                        case 3: //-------------------------GLIDER
                             if(tab[r][c].getState()==0){
                                 tab[r][c].setState(1);
                                 tab[r][c+1].setState(1);
@@ -102,7 +104,7 @@ public class Board extends JPanel implements Runnable{
                             else
                                 tab[r][c].setState(0);
                             break;
-                        case 4:
+                        case 4: //-------------------------HEART
                             if(tab[r][c].getState()==0){
                                 tab[5][5].setState(1);tab[5][6].setState(1);tab[5][7].setState(1);tab[5][11].setState(1);tab[5][12].setState(1);tab[5][13].setState(1);
                                 tab[6][4].setState(1);tab[6][8].setState(1);tab[6][10].setState(1);tab[6][14].setState(1);
@@ -119,6 +121,17 @@ public class Board extends JPanel implements Runnable{
                             else
                                 tab[r][c].setState(0);
                             break;
+                        case 5: //-------------------------CHECKERBOARD
+                            for(int i=0; i<size; i+=2){
+                                for(int j=0; j<size; j+=2){
+                                    tab[i][j].setState(1);
+                                }
+                            }
+                            for(int i=1; i<size; i+=2){
+                                for(int j=1; j<size; j+=2){
+                                    tab[i][j].setState(1);
+                                }
+                            }
                     }                          
                     }
                 }                
@@ -189,25 +202,26 @@ public class Board extends JPanel implements Runnable{
                 /*----------NON-PERIODIC BOUNDARY CONDITION--------------------*/
                 if(cond.getBC()==0){
                     if((i==0 || i==size-1) && (j==0 || j==size-1)){
-                        tab[i][j].setDead(5);
+                        tab[i][j].setDead(5);   //corner cell
                     }else if(i==0 || i==size-1 || j==0 || j==size-1){
-                        tab[i][j].setDead(3);
+                        tab[i][j].setDead(3);   //on the edge 
                     }
                     /*-------CHECKING NEIGHBOURHOOD--------------*/           
-                    for(int k=i-1; k<i+2; k++){
-                        for(int l=j-1; l<j+2; l++){
+                    for(int k=i-1; k<i+2; k++){ //-----------------from 1 up to 1 low (3 iterations) in rows
+                        for(int l=j-1; l<j+2; l++){ //-------------from 1 up to 1 low (3 iterations) in columns
                             if((k==i && l==j) || k<0 || k>=size || l<0 || l>=size){
-                                continue; }
-                            else if(tab[k][l].getState()==0){
+                                continue; } //don't check itself and go out of boundaries
+                            if(tab[k][l].getState()==0){
                                 tab[i][j].addDead(); 
                             }
                             else
                                 tab[i][j].addAlive();
                         }
-                    }
-                    /*--------------------------------------------*/                    
-                    
+                    }                   
+                
+                /*----------------PERIODIC BOUNDARY CONDITION-------------------*/
                 }else if(cond.getBC()==1){
+                    /*---------------CHECKING NEIGHBOURHOOD-------*/
                     for(int k=i-1; k<i+2; k++){
                         for(int l=j-1; l<j+2; l++){
                             
@@ -228,28 +242,25 @@ public class Board extends JPanel implements Runnable{
                             else 
                                 ll=l;
                             
-                            if(k==i && l==j)
-                                ;
-                            else if(tab[kk][ll].getState()==0){
+                            if(k==i && l==j)    //don't check itself
+                                continue;
+                            if(tab[kk][ll].getState()==0){
                                 tab[i][j].addDead();
                             }
                             else
                                 tab[i][j].addAlive();
                         }
                     }                 
-                }else{
-            
                 }
-
-               if(tab[i][j].getState()==0 && tab[i][j].getAlive()==3)
-                   temp[i][j].setState(1);
-               else if(tab[i][j].getState()==1){
+/*--------------------------GAME OF LIFE RULES----------------------------------*/
+                    if(tab[i][j].getState()==0 && tab[i][j].getAlive()==3)
+                        temp[i][j].setState(1);
+                    else if(tab[i][j].getState()==1){
                        if(tab[i][j].getAlive()==3 || tab[i][j].getAlive()==2)
                             temp[i][j].setState(1);
                        else if(tab[i][j].getAlive()>3 || tab[i][j].getAlive()<2)
                             temp[i][j].setState(0);
-               }
-             
+                    }            
             }
         }
         
